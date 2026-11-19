@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#7C3AED">
+<title>恒达智控 MOM · 移动端</title>
+<script>
+/* 手机/平板真机检测：全屏模式（去外框），桌面窄窗口同样生效 */
+(function () {
+  function f() {
+    var phone = window.innerWidth <= 560 ||
+      (navigator.maxTouchPoints > 1 && Math.min(window.innerWidth, window.innerHeight) < 620);
+    document.documentElement.classList.toggle('native', phone);
+  }
+  f();
+  window.addEventListener('resize', f);
+  window.addEventListener('orientationchange', function () { setTimeout(f, 200); });
+})();
+</script>
+<link rel="stylesheet" href="../assets/css/common.css">
+<style>
+  html, body { height: 100%; background: #1B2138; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  body {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+  }
+  .phone {
+    width: 390px; height: 844px; background: #F4F6FB; border-radius: 44px;
+    box-shadow: 0 0 0 10px #0B1026, 0 0 0 12px #2A3152, 0 30px 80px rgba(0,0,0,.6);
+    overflow: hidden; display: flex; flex-direction: column; position: relative;
+    flex-shrink: 0;
+  }
+  /* 小桌面窗口：等比缩小外框 */
+  @media (min-width: 561px) and (max-width: 1100px), (min-width: 561px) and (max-height: 900px) {
+    .phone { zoom: .82; }
+  }
+  /* 真机全屏模式 */
+  html.native { background: #F4F6FB; }
+  html.native body { align-items: stretch; justify-content: stretch; background: #F4F6FB; }
+  html.native .phone {
+    width: 100%; height: 100vh; height: 100dvh;
+    border-radius: 0; box-shadow: none; flex-shrink: 1;
+  }
+  html.native .notch { display: none; }
+  html.native .app-head {
+    padding-top: calc(14px + env(safe-area-inset-top));
+    border-radius: 0;
+  }
+  html.native .tabbar {
+    height: calc(64px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .notch { height: 44px; background: #141A33; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .notch::after { content: ""; width: 110px; height: 24px; background: #0B1026; border-radius: 14px; }
+  .app-head { background: linear-gradient(135deg, #7C3AED, #2563EB); color: #fff; padding: 14px 20px 16px; flex-shrink: 0; }
+  .app-head .t { font-size: 17px; font-weight: 700; }
+  .app-head .s { font-size: 11px; opacity: .85; margin-top: 3px; }
+  .app-body { flex: 1; min-height: 0; overflow-y: auto; padding: 14px 14px 20px; -webkit-overflow-scrolling: touch; }
+  .app-view { display: none; } .app-view.show { display: block; }
+  .tabbar {
+    height: 66px; background: #fff; border-top: 1px solid var(--line); display: flex; flex-shrink: 0;
+  }
+  .tabbar button {
+    flex: 1; border: none; background: none; font-size: 12px; color: var(--ink-3); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 3px; padding-top: 10px; font-family: inherit;
+    min-height: 48px;
+  }
+  .tabbar button .ic { font-size: 20px; }
+  .tabbar button.on { color: var(--brand); font-weight: 700; }
+  .tabbar button:active { opacity: .6; }
+
+  .m-card { background: #fff; border-radius: 14px; padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 6px rgba(31,36,48,.05); }
+  .m-kpi-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .m-kpi {
+    flex: 1; background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 1px 6px rgba(31,36,48,.05);
+  }
+  .m-kpi .k { font-size: 11px; color: var(--ink-3); }
+  .m-kpi .v { font-size: 22px; font-weight: 800; font-family: "DIN Alternate", monospace; margin-top: 4px; }
+  .m-kpi .v em { font-style: normal; font-size: 11px; color: var(--ink-3); font-weight: 400; }
+
+  .push-item { display: flex; gap: 10px; padding: 12px 2px; border-bottom: 1px solid #F0F2F7; }
+  .push-item:last-child { border: none; }
+  .push-item .p { flex: 1; min-width: 0; }
+  .push-item .t { font-size: 13.5px; font-weight: 600; }
+  .push-item .d { font-size: 12px; color: var(--ink-2); margin-top: 3px; }
+  .push-item .time { font-size: 11px; color: var(--ink-3); }
+
+  .m-btn {
+    border: none; border-radius: 10px; padding: 9px 16px; font-size: 13px; cursor: pointer; font-family: inherit;
+    background: #F5F3FF; color: var(--brand); font-weight: 600;
+  }
+  .m-btn.primary { background: var(--brand-grad); color: #fff; }
+  .approval-item .row1 { display: flex; justify-content: space-between; align-items: center; }
+  .approval-item .title { font-weight: 700; font-size: 14.5px; }
+  .flow { font-size: 11px; color: var(--ink-3); margin: 8px 0 10px; }
+  #toast { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); background: rgba(20,26,51,.95); color: #fff; font-size: 14px; padding: 10px 20px; border-radius: 12px; opacity: 0; transition: all .25s; pointer-events: none; z-index: 99; max-width: 86%; text-align: center; }
+  #toast.show { opacity: 1; }
+  .chart-m { width: 100%; height: 200px; }
+
+  /* ---- 移动端内容细则 ---- */
+  .m-btn { min-height: 40px; }
+  @media (max-width: 420px) {
+    .app-body { padding: 10px 10px 16px; }
+    .app-head .t { font-size: 16px; }
+    .app-head .s { font-size: 10.5px; }
+    .m-kpi .v { font-size: 19px; }
+    .m-card { padding: 12px; }
+    .push-item .d { font-size: 11.5px; }
+    .flow { font-size: 10.5px; }
+  }
+  /* 告警推送按钮组窄屏换行 */
+  .flex.mt12 { flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="notch"></div>
+  <div class="app-head">
+    <div class="t">恒达智控 MOM</div>
+    <div class="s">金沙河煤矿 · 高矿长（矿领导）· 数据每 60s 刷新</div>
+  </div>
+  <div class="app-body">
+    <!-- A01 看板 -->
+    <div class="app-view show" id="av-board">
+      <div class="m-kpi-row">
+        <div class="m-kpi"><div class="k">今日产量</div><div class="v" id="aTon">5,286<em> 吨</em></div></div>
+        <div class="m-kpi"><div class="k">今日进尺</div><div class="v">10.8<em> m</em></div></div>
+      </div>
+      <div class="m-kpi-row">
+        <div class="m-kpi"><div class="k">未闭环告警</div><div class="v" style="color:var(--crit)">3<em> 条</em></div></div>
+        <div class="m-kpi"><div class="k">在井人数</div><div class="v">86<em> /120</em></div></div>
+      </div>
+      <div class="m-card"><h3>近 14 日产量</h3><div class="chart-m" id="a-trend"></div></div>
+      <div class="m-card"><h3>设备运行率</h3>
+        <div class="push-item"><div class="p"><div class="t">综采电液控（120 支架）</div><div class="pbar mt8"><i style="width:99%"></i></div></div><span class="time" style="align-self:center">99.2%</span></div>
+        <div class="push-item"><div class="p"><div class="t">智能供液泵站</div><div class="pbar mt8"><i style="width:94%"></i></div></div><span class="time" style="align-self:center">94.1%</span></div>
+        <div class="push-item"><div class="p"><div class="t">主运输皮带系统</div><div class="pbar mt8"><i style="width:93%"></i></div></div><span class="time" style="align-self:center">92.8%</span></div>
+      </div>
+      <button class="m-btn primary" style="width:100%;padding:12px" onclick="location.href='../screen/index.html'">📺 打开调度大屏</button>
+    </div>
+
+    <!-- A02 告警推送 -->
+    <div class="app-view" id="av-alarm">
+      <div class="m-card" style="border-left:4px solid var(--crit)">
+        <div class="flex between"><span class="badge crit">紧急 · 推送</span><span class="tiny">11:02</span></div>
+        <div class="title" style="font-weight:700;margin-top:8px">3302 回风巷 CH4 0.91% 超紧急阈值</div>
+        <div class="tiny" style="margin-top:4px">已联动闭锁指令 · 掘进面停止作业 · 等待处置确认</div>
+        <div class="flex mt12" style="gap:8px">
+          <button class="m-btn primary" onclick="toast('已一键通知调度室（语音+消息）')">一键通知调度</button>
+          <button class="m-btn" onclick="toast('已一键通知机电/通防班组')">通知班组</button>
+          <button class="m-btn" onclick="toast('拨打电话（模拟）')">📞 呼叫</button>
+        </div>
+      </div>
+      <div class="m-card">
+        <h3>今日推送记录</h3>
+        <div class="push-item"><div class="p"><div class="t">⚠️ 预警 · 1304 工作面 45# 支架初撑力低</div><div class="d">连续 3 循环低于 24MPa · 已自动派单 EM-2286</div></div><span class="time">10:47</span></div>
+        <div class="push-item"><div class="p"><div class="t">⚠️ 预警 · 3 号皮带巷机头 CO 24ppm</div><div class="d">疑似托辊摩擦 · 机电班核查中</div></div><span class="time">10:31</span></div>
+        <div class="push-item"><div class="p"><div class="t">ℹ️ 提示 · 瓦检员证书过期入井拦截</div><div class="d">井口闸机拒绝放行 · 已通知安培科</div></div><span class="time">09:05</span></div>
+        <div class="push-item"><div class="p"><div class="t">⚠️ 预警 · 昨日产量偏差 67%</div><div class="d">3520 吨 / 计划 5200 吨 · 班前会通报</div></div><span class="time">08:22</span></div>
+      </div>
+      <div class="tiny" style="text-align:center">推送通道：APP 推送 + 短信（紧急）· 送达时延目标 ≤1s</div>
+    </div>
+
+    <!-- A03 工单审批 -->
+    <div class="app-view" id="av-approve">
+      <div class="m-card approval-item">
+        <div class="row1"><span class="title">维修工单 EM-2285 备件采购</span><span class="badge warn">待审批</span></div>
+        <div class="flow">机电班·李国锋 → 物资管理员·吴丽（驳回）→ <b>矿长审批（当前）</b> → 采购</div>
+        <div class="tiny">1# 泵站蓄能器胶囊库存不足（1/3），申请紧急采购 NXQ-40 ×2，预计 3,200 元</div>
+        <div class="flex mt12" style="gap:8px">
+          <button class="m-btn primary" style="flex:1" onclick="approve('EM-2285 备件采购')">同意</button>
+          <button class="m-btn" style="flex:1;background:#FEF2F2;color:var(--crit)" onclick="toast('已驳回并附意见（模拟）')">驳回</button>
+        </div>
+      </div>
+      <div class="m-card approval-item">
+        <div class="row1"><span class="title">领料单 LL-1026-09（W 钢带 ×40）</span><span class="badge warn">待审批</span></div>
+        <div class="flow">掘进一班·赵永强 → <b>物资管理员审批（当前）</b></div>
+        <div class="tiny">3302 掘进面支护用 · 关联工单 WO-1026-004</div>
+        <div class="flex mt12" style="gap:8px">
+          <button class="m-btn primary" style="flex:1" onclick="approve('LL-1026-09 领料')">同意</button>
+          <button class="m-btn" style="flex:1;background:#FEF2F2;color:var(--crit)" onclick="toast('已驳回并附意见（模拟）')">驳回</button>
+        </div>
+      </div>
+      <div class="m-card">
+        <h3>流程进度（EM-2286 已闭环）</h3>
+        <div class="timeline mt8">
+          <div class="tl-item done"><div class="t">告警联动生成工单</div><div class="d">10:47 · 规则 AR-04 自动触发</div></div>
+          <div class="tl-item done"><div class="t">备件领用</div><div class="d">10:58 · 安全阀 FAD200/40 ×1</div></div>
+          <div class="tl-item done"><div class="t">维修完成 · 验收闭环</div><div class="d">待 45# 支架复测通过后销号</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <button class="on" data-v="board" onclick="goApp('board')"><span class="ic">📊</span>看板</button>
+    <button data-v="alarm" onclick="goApp('alarm')"><span class="ic">🔔</span>告警</button>
+    <button data-v="approve" onclick="goApp('approve')"><span class="ic">✍️</span>审批</button>
+  </nav>
+</div>
+<div id="toast"></div>
+
+<script src="../assets/js/echarts.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/data2.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script>
+function goApp(v) {
+  document.querySelectorAll('.tabbar button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === v); });
+  document.querySelectorAll('.app-view').forEach(function (x) { x.classList.remove('show'); });
+  document.getElementById('av-' + v).classList.add('show');
+  if (v === 'board') drawA();
+}
+function approve(n) { toast('已批准「' + n + '」· 审批留痕已上传'); }
+function drawA() {
+  if (!window.echarts) return;
+  var d = MOM.prod30.slice(-14);
+  mkChart(document.getElementById('a-trend'), {
+    tooltip: { trigger: 'axis' },
+    grid: { left: 44, right: 10, top: 26, bottom: 22 },
+    xAxis: { type: 'category', data: d.map(function (x) { return x.date.slice(5); }), axisLabel: { fontSize: 9, color: '#98A1B3' } },
+    yAxis: { type: 'value', axisLabel: { fontSize: 9, color: '#98A1B3' }, splitLine: { lineStyle: { color: '#F0F2F7' } } },
+    series: [{ type: 'bar', barWidth: 8, itemStyle: { borderRadius: [3, 3, 0, 0], color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: '#7C3AED' }, { offset: 1, color: '#2563EB' }] } }, data: d.map(function (x) { return x.actTon; }) }]
+  });
+}
+drawA();
+</script>
+</body>
+</html>
