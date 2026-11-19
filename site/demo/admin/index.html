@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恒达智控 MOM · PC 管理后台</title>
+<link rel="stylesheet" href="../assets/css/common.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ================= 登录页 ================= -->
+<div id="loginPage" class="login-page">
+  <div class="login-left">
+    <div class="brand">
+      <div class="logo">HD</div>
+      <div><div class="t1">恒达智控 · MOM</div><div class="t2">MINE OPERATION MANAGEMENT</div></div>
+    </div>
+    <h1>中型煤矿智能化<br>制造运营管理平台</h1>
+    <p>打通采掘生产 · 安全运营 · 设备运维 · 井下物资 · 煤质管理五大业务域<br>
+       原生对接恒达综采电液控 / 智能供液，实现「设备控制 + 运营管理一体化」</p>
+    <div class="login-tags">
+      <span>统一数据模型</span><span>紧急告警闭锁联动</span><span>井下弱网可用</span><span>智能化验收报表</span>
+    </div>
+  </div>
+  <div class="login-card card">
+    <h3 style="font-size:18px">账号登录</h3>
+    <p class="tiny" style="margin:-6px 0 16px">演示环境：任意角色一键进入，数据为模拟数据</p>
+    <div class="field"><label>角色</label>
+      <select class="inp" id="loginRole">
+        <option value="陈调度|矿总调度员">陈调度 · 矿总调度员</option>
+        <option value="王建军|综采队长">王建军 · 综采队长</option>
+        <option value="李国锋|机电工程师">李国锋 · 机电工程师</option>
+        <option value="马安平|安全科长">马安平 · 安全科长</option>
+        <option value="吴丽|物资管理员">吴丽 · 物资管理员</option>
+        <option value="郑小燕|煤质化验员">郑小燕 · 煤质化验员</option>
+        <option value="高矿长|矿领导">高矿长 · 矿领导</option>
+        <option value="恒达·实施|实施工程师">恒达·实施 · 实施工程师</option>
+      </select>
+    </div>
+    <div class="field"><label>账号</label><input class="inp" id="loginUser" value="chendiaodu" readonly></div>
+    <div class="field"><label>密码</label><input class="inp" type="password" value="123456" readonly></div>
+    <button class="btn primary" id="loginBtn" style="width:100%;height:40px;font-size:14px">登 录</button>
+    <p class="tiny" style="margin-top:12px;text-align:center">登录即代表同意《平台操作安全承诺书》· 所有操作留痕审计</p>
+  </div>
+</div>
+
+<!-- ================= 主布局 ================= -->
+<div id="app" style="display:none">
+  <aside class="side">
+    <div class="side-logo">
+      <div class="logo-s">HD</div>
+      <div><div class="t1">恒达智控 MOM</div><div class="t2">金沙河煤矿 · 示范矿</div></div>
+    </div>
+    <nav class="menu" id="menu"></nav>
+    <div class="side-foot">
+      <span class="dot ok"></span><span class="tiny">井下环网正常 · 网关 6/6 在线</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="mb-toggle" id="mbToggle" aria-label="菜单">☰</button>
+      <div class="crumb" id="crumb">工作台</div>
+      <div class="top-right">
+        <span class="tiny" id="clock"></span>
+        <span class="alarm-chip" id="topAlarm" title="点击进入告警中心"><span class="dot crit"></span>紧急告警 1</span>
+        <span class="avatar" id="userChip">陈调度</span>
+      </div>
+    </header>
+    <main class="content" id="view"></main>
+  </div>
+</div>
+<div class="side-mask" id="sideMask"></div>
+
+<script src="../assets/js/echarts.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/data2.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="pages1.js"></script>
+<script src="pages2.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
