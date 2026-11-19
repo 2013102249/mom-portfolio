@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恒达智控 · 中型煤矿智能化 MOM 平台</title>
+<link rel="stylesheet" href="assets/css/common.css">
+<style>
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(37, 99, 235, .14), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(124, 58, 237, .12), transparent 60%),
+      #0B1026;
+    color: #E7EAF6;
+    overflow-x: hidden;
+  }
+  .hero { max-width: 1240px; margin: 0 auto; padding: 56px 32px 20px; position: relative; z-index: 2; }
+  .brand-line { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, #7C3AED, #2563EB);
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px;
+    box-shadow: 0 8px 24px rgba(124, 58, 237, .45); color: #fff;
+  }
+  .brand-line .t1 { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+  .brand-line .t2 { font-size: 12px; color: #8B93B8; letter-spacing: 4px; margin-top: 2px; }
+  h1.headline { font-size: 40px; font-weight: 800; line-height: 1.3; margin-top: 44px; }
+  h1.headline .grad {
+    background: linear-gradient(90deg, #A78BFA, #60A5FA); -webkit-background-clip: text;
+    background-clip: text; color: transparent;
+  }
+  .lede { color: #9AA3C7; font-size: 15px; margin-top: 14px; max-width: 720px; line-height: 1.8; }
+  .arch {
+    margin-top: 30px; display: grid; gap: 10px; max-width: 860px;
+  }
+  .arch .layer {
+    border: 1px solid rgba(139, 147, 184, .25); border-radius: 10px; padding: 10px 16px;
+    font-size: 12.5px; color: #B9C0DE; background: rgba(255,255,255,.03);
+    display: flex; gap: 18px; align-items: center;
+  }
+  .arch .layer b { color: #E7EAF6; font-size: 13px; white-space: nowrap; min-width: 108px; }
+  .arch .layer.hl { border-color: rgba(124, 58, 237, .55); background: rgba(124, 58, 237, .10); }
+  .arch .layer.hl b { color: #C4B5FD; }
+
+  .ports { max-width: 1240px; margin: 44px auto 0; padding: 0 32px 64px; position: relative; z-index: 2; }
+  .ports-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .port {
+    border-radius: 16px; padding: 24px 22px; cursor: pointer; text-decoration: none; color: inherit;
+    border: 1px solid rgba(139, 147, 184, .22); background: rgba(255,255,255,.035);
+    transition: all .22s; display: block; position: relative; overflow: hidden;
+  }
+  .port:hover { transform: translateY(-4px); border-color: rgba(124,58,237,.6); background: rgba(124,58,237,.10); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+  .port .ic {
+    width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center;
+    font-size: 21px; margin-bottom: 14px; background: linear-gradient(135deg, rgba(124,58,237,.9), rgba(37,99,235,.9));
+    box-shadow: 0 6px 18px rgba(124,58,237,.4);
+  }
+  .port .name { font-size: 17px; font-weight: 700; }
+  .port .desc { font-size: 12px; color: #9AA3C7; margin-top: 8px; line-height: 1.7; }
+  .port .meta { margin-top: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { font-size: 11px; padding: 2px 9px; border-radius: 20px; background: rgba(255,255,255,.07); color: #B9C0DE; border: 1px solid rgba(139,147,184,.25); }
+  .port .go { position: absolute; right: 18px; top: 22px; color: #6D769B; font-size: 13px; }
+
+  .stats { max-width: 1240px; margin: 10px auto 0; padding: 0 32px 30px; }
+  .stats-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .stat { border-left: 3px solid #7C3AED; padding: 4px 0 4px 14px; }
+  .stat .v { font-size: 26px; font-weight: 800; font-family: "DIN Alternate", "Helvetica Neue", sans-serif; }
+  .stat .v em { font-style: normal; font-size: 13px; color: #9AA3C7; margin-left: 4px; font-weight: 400; }
+  .stat .k { font-size: 12px; color: #8B93B8; margin-top: 4px; }
+
+  .foot { text-align: center; color: #6D769B; font-size: 12px; padding: 0 0 40px; }
+  .grid-bg {
+    position: fixed; inset: 0; pointer-events: none; opacity: .5;
+    background-image: linear-gradient(rgba(139,147,184,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139,147,184,.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  @media (max-width: 1000px) { .ports-grid, .stats-in { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) {
+    .hero { padding: 36px 18px 12px; }
+    h1.headline { font-size: 27px; margin-top: 28px; }
+    .lede { font-size: 13.5px; }
+    .arch .layer { flex-direction: column; align-items: flex-start; gap: 5px; padding: 10px 13px; }
+    .arch .layer b { min-width: 0; }
+    .ports { padding: 0 18px 40px; margin-top: 30px; }
+    .ports-grid, .stats-in { grid-template-columns: 1fr; gap: 12px; }
+    .port { padding: 18px 16px; }
+    .stats { padding: 0 18px 20px; }
+    .brand-line .t1 { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header class="hero">
+  <div class="brand-line">
+    <div class="logo">HD</div>
+    <div>
+      <div class="t1">恒达智控 · MOM</div>
+      <div class="t2">MINE OPERATION MANAGEMENT</div>
+    </div>
+  </div>
+  <h1 class="headline">中型煤矿智能化<br><span class="grad">制造运营管理平台</span></h1>
+  <p class="lede">
+    位于煤矿 ERP 与恒达综采电液控 / 智能供液 / 传感器之间的一体化运营中台：打通采掘生产、安全运营、设备运维、井下物资、煤质管理五大业务域，配套调度中心与数字孪生。硬件 + 软件一体化交付，匹配年产能 30~300 万吨中型井工矿。
+  </p>
+
+  <div class="arch">
+    <div class="layer"><b>决策展示层</b><span>调度大屏 ｜ 数字孪生工作面 ｜ PC 后台 ｜ 井下防爆 PAD ｜ 移动 APP ｜ 报表</span></div>
+    <div class="layer hl"><b>MOM 业务应用层</b><span>采掘生产运营 ｜ 安全运营 ｜ 设备运维 EAM ｜ 井下物资 WMS ｜ 煤质 QMS ｜ 调度中心</span></div>
+    <div class="layer"><b>数据中台底座</b><span>协议网关 ｜ 时序库 ｜ 告警引擎 ｜ 主数据 ｜ 权限中心</span></div>
+    <div class="layer"><b>感知 &amp; 控制层</b><span>综采电液控 ｜ 智能供液 ｜ 皮带集控 ｜ 矿鸿网关 ｜ 瓦斯/CO 传感器 ｜ 人员定位 ｜ 视频 AI</span></div>
+  </div>
+</header>
+
+<section class="ports">
+  <div class="ports-grid">
+    <a class="port" href="admin/index.html">
+      <span class="go">进入 →</span>
+      <div class="ic">🖥️</div>
+      <div class="name">PC 管理后台</div>
+      <div class="desc">登录工作台、采掘计划与工单、告警中心与闭锁联动、隐患闭环、设备 EAM、物资 WMS、煤质 QMS、报表中心、权限审计、点位组态。</div>
+      <div class="meta"><span class="chip">20 个页面</span><span class="chip">P01-P20</span><span class="chip">角色登录</span></div>
+    </a>
+    <a class="port" href="screen/index.html">
+      <span class="go">进入 →</span>
+      <div class="ic">📺</div>
+      <div class="name">调度大屏</div>
+      <div class="desc">矿级总览（产量 / 进尺 / 人员 / 告警实时滚动）、综采工作面数字孪生（支架姿态 / 泵站 / 环境）、异常事件回放。</div>
+      <div class="meta"><span class="chip">1920×1080</span><span class="chip">D01-D03</span><span class="chip">16:9</span></div>
+    </a>
+    <a class="port" href="pad/index.html">
+      <span class="go">进入 →</span>
+      <div class="ic">📲</div>
+      <div class="name">井下防爆 PAD</div>
+      <div class="desc">任务接收与开工确认、工序打卡、完工报工、隐患 / 故障一键拍照上报、巡检 NFC 打卡、离线缓存与断点续传。</div>
+      <div class="meta"><span class="chip">横屏平板</span><span class="chip">M01-M06</span><span class="chip">弱网可用</span></div>
+    </a>
+    <a class="port" href="app/index.html">
+      <span class="go">进入 →</span>
+      <div class="ic">📱</div>
+      <div class="name">移动端 APP</div>
+      <div class="desc">面向矿领导与队长：核心指标移动看板、分级告警推送与一键通知调度 / 机电、维修与领料工单审批。</div>
+      <div class="meta"><span class="chip">390×844</span><span class="chip">A01-A03</span><span class="chip">推送处置</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-in">
+    <div class="stat"><div class="v">8<em>大模块域</em></div><div class="k">生产 / 安全 / EAM / WMS / QMS / 调度 / 中台 / 报表</div></div>
+    <div class="stat"><div class="v">32<em>个交付页面</em></div><div class="k">PC 20 + 大屏 3 + PAD 6 + APP 3（PRD 一期全量）</div></div>
+    <div class="stat"><div class="v">150<em>万吨/年</em></div><div class="k">示范矿设计产能（PRD 适用区间 30~300 万吨）</div></div>
+    <div class="stat"><div class="v">≤1s<em>紧急告警</em></div><div class="k">闭锁联动链路目标时延，测点刷新 ≤2s</div></div>
+  </div>
+</section>
+
+<div class="foot">恒达智控「硬件 + 软件」一体化方案演示原型 · 数据为模拟数据 · V1.0 · 2026-10-09</div>
+</body>
+</html>
