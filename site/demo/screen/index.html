@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恒达智控 MOM · 调度大屏</title>
+<link rel="stylesheet" href="../assets/css/common.css">
+<link rel="stylesheet" href="screen.css">
+</head>
+<body>
+<div id="stage">
+  <!-- ===== 顶部 ===== -->
+  <header class="scr-head">
+    <div class="hl">
+      <span class="sys-status"><span class="dot ok"></span>系统运行正常 · 网关 6/6 在线</span>
+      <span class="sys-status"><span class="dot warn"></span>紧急告警 1 · 处置中</span>
+    </div>
+    <div class="hc">
+      <div class="title">金沙河煤矿 · 智能运营调度中心</div>
+      <div class="subtitle">恒达智控 MOM ｜ 中型煤矿智能化制造运营管理平台</div>
+    </div>
+    <div class="hr">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="date" id="date">----</div>
+    </div>
+  </header>
+
+  <!-- ===== Tab ===== -->
+  <nav class="scr-tabs">
+    <span class="tab on" data-v="d01">矿级总览</span>
+    <span class="tab" data-v="d02">综采工作面数字孪生</span>
+    <span class="tab" data-v="d03">异常事件回放</span>
+  </nav>
+
+  <!-- ===== D01 总览 ===== -->
+  <section class="view show" id="v-d01">
+    <div class="colL">
+      <div class="panel">
+        <div class="p-title">生产核心指标</div>
+        <div class="flip-row">
+          <div class="flip"><div class="f-label">今日产量</div><div class="f-num" id="k-ton">5,286</div><div class="f-unit">吨 · 日计划 5,200</div></div>
+          <div class="flip"><div class="f-label">今日进尺</div><div class="f-num" id="k-foot">10.8</div><div class="f-unit">m · 日计划 9</div></div>
+        </div>
+        <div class="flip-row" style="margin-top:10px">
+          <div class="flip"><div class="f-label">月累计产量</div><div class="f-num sm" id="k-mton">11.62</div><div class="f-unit">万吨 · 完成 77.5%</div></div>
+          <div class="flip"><div class="f-label">回采推进度</div><div class="f-num sm">47%</div><div class="f-unit">682/1450 m · 剩 96 天</div></div>
+        </div>
+      </div>
+      <div class="panel flex1">
+        <div class="p-title">近 14 日产量趋势<span class="p-sub">吨</span></div>
+        <div class="chart" id="s-trend"></div>
+      </div>
+      <div class="panel">
+        <div class="p-title">采掘接续预警</div>
+        <div id="s-succession"></div>
+      </div>
+    </div>
+
+    <div class="colC">
+      <div class="panel map-panel">
+        <div class="p-title">矿井生产态势图<span class="p-sub">工作面运行状态 · 实时</span></div>
+        <svg id="mineMap" viewBox="0 0 960 430"></svg>
+      </div>
+      <div class="alarm-bar">
+        <span class="ab-tag">紧急</span>
+        <div class="ab-scroll"><div class="ab-inner" id="alarmScroll"></div></div>
+      </div>
+    </div>
+
+    <div class="colR">
+      <div class="panel flex1">
+        <div class="p-title">实时告警<span class="p-sub">滚动</span></div>
+        <div class="alarm-list" id="s-alarms"></div>
+      </div>
+      <div class="panel">
+        <div class="p-title">井下人员分布<span class="p-sub">86/120 人</span></div>
+        <div class="chart" id="s-person" style="height:190px"></div>
+      </div>
+      <div class="panel">
+        <div class="p-title">设备运行率</div>
+        <div id="s-devices"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== D02 数字孪生 ===== -->
+  <section class="view" id="v-d02">
+    <div class="colL">
+      <div class="panel">
+        <div class="p-title">智能供液泵站</div>
+        <div class="gauge-row">
+          <div class="gauge" id="g-pump"></div>
+          <div class="gauge" id="g-flow"></div>
+        </div>
+        <div class="kv-row"><span>乳化液浓度</span><b>2.6%</b></div>
+        <div class="kv-row"><span>油温</span><b>52 ℃</b></div>
+        <div class="kv-row"><span>1# 泵状态</span><b style="color:#FBBF24">压力波动预警</b></div>
+        <div class="kv-row"><span>2# 泵状态</span><b style="color:#34D399">运行正常</b></div>
+      </div>
+      <div class="panel flex1">
+        <div class="p-title">环境监测（接入安全监控系统）</div>
+        <div id="s-env"></div>
+      </div>
+    </div>
+
+    <div class="colC twin-col">
+      <div class="panel twin-panel">
+        <div class="p-title">1304 综采工作面数字孪生<span class="p-sub">对接恒达综采电液控模型 · 只读 + 有限调度指令</span></div>
+        <svg id="twinSvg" viewBox="0 0 900 360"></svg>
+        <div class="twin-legend">
+          <span><i class="lg" style="background:#34D399"></i>正常 117</span>
+          <span><i class="lg" style="background:#FBBF24"></i>预警 2</span>
+          <span><i class="lg" style="background:#F87171"></i>故障 1（45#）</span>
+          <span><i class="lg" style="background:#7C3AED"></i>采煤机位置</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="p-title">设备工况</div>
+        <div class="grid4" id="s-cond"></div>
+      </div>
+    </div>
+
+    <div class="colR">
+      <div class="panel flex1">
+        <div class="p-title">支架健康关注（TOP6）</div>
+        <div id="s-supports"></div>
+      </div>
+      <div class="panel">
+        <div class="p-title">有限调度指令<span class="p-sub">硬控制保留底层集控</span></div>
+        <button class="scr-btn danger" onclick="sendLock()">下发工作面闭锁</button>
+        <button class="scr-btn" onclick="toast('已发送降速指令：割煤速度 ≤ 4.5m/min（模拟）')">割煤降速指令</button>
+        <button class="scr-btn" onclick="toast('指令已记录审计日志（模拟）')">查询指令历史</button>
+        <div class="tiny scr-note">安全红线：MOM 仅向恒达工作面集控 / 电液控下发指令，控制逻辑与安全联锁保留在底层控制器，操作全程留痕。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== D03 事件回放 ===== -->
+  <section class="view" id="v-d03">
+    <div class="colC" style="width:100%">
+      <div class="panel">
+        <div class="p-title">今日安全事件链回放<span class="p-sub">3302 回风巷瓦斯超限 → 闭锁 → 解除（复盘用）</span></div>
+        <div class="replay-wrap">
+          <div class="replay-svg-wrap"><svg id="replaySvg" viewBox="0 0 900 300"></svg></div>
+          <div class="replay-side">
+            <div class="rp-controls">
+              <button class="scr-btn" id="rpPlay" onclick="togglePlay()">▶ 播放</button>
+              <span class="tiny" id="rpTime">11:02:31</span>
+            </div>
+            <div class="rp-events" id="rpEvents"></div>
+          </div>
+        </div>
+        <div class="timeline-track" id="rpTrack"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="toast"></div>
+<div class="rotate-hint">
+  <div class="rh-ic">📱→📱</div>
+  <div class="rh-t">请横屏观看调度大屏</div>
+  <div class="rh-d">大屏按 1920×1080 等比缩放，横屏可获得完整视角</div>
+</div>
+
+<script src="../assets/js/echarts.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/data2.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="screen.js"></script>
+</body>
+</html>
