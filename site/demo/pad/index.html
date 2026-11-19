@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恒达智控 MOM · 井下防爆 PAD</title>
+<link rel="stylesheet" href="../assets/css/common.css">
+<link rel="stylesheet" href="pad.css">
+</head>
+<body>
+<div class="device">
+  <!-- ===== 状态栏 ===== -->
+  <div class="statusbar">
+    <span class="sb-item strong" id="padClock">--:--</span>
+    <span class="sb-item">恒达防爆 PAD · KBA-127（本安型）</span>
+    <span class="sb-item" id="netState" style="cursor:pointer" title="点击模拟断网/恢复" onclick="toggleNet()">🛜 井下环网 · 已连接</span>
+    <span class="sb-item warn hidden" id="cacheState">📦 本地缓存 <b id="cacheCnt">0</b> 条</span>
+  </div>
+
+  <!-- ===== 登录屏 M01 ===== -->
+  <div class="pad-view show" id="v-login">
+    <div class="pad-login">
+      <div class="pl-brand"><div class="pl-logo">HD</div>恒达智控 · MOM 井下作业终端</div>
+      <div class="pl-card">
+        <div class="pl-face">👤</div>
+        <div class="strong" style="font-size:18px">王建军 · 综采一班 队长</div>
+        <div class="tiny" style="margin:6px 0 18px">人脸识别已通过 · 特种作业证书有效（2027-03 到期）</div>
+        <button class="pad-btn primary" style="width:100%" onclick="login()">进入作业系统</button>
+        <button class="pad-btn" style="width:100%;margin-top:12px" onclick="toast('切换工号登录（模拟）')">切换工号登录</button>
+      </div>
+      <div class="tiny">井下防爆终端 · 操作权限与地面后台隔离 · 弱网离线可用</div>
+    </div>
+  </div>
+
+  <!-- ===== 主界面 ===== -->
+  <div id="padMain" class="hidden">
+    <div class="pad-body" id="padBody"></div>
+    <!-- 底部导航（M01-M06 入口） -->
+    <nav class="pad-nav">
+      <button class="pn on" data-v="task" onclick="go('task')">任务</button>
+      <button class="pn" data-v="report" onclick="go('report')">报工</button>
+      <button class="pn" data-v="hazard" onclick="go('hazard')">上报</button>
+      <button class="pn" data-v="inspect" onclick="go('inspect')">巡检</button>
+      <button class="pn" data-v="sync" onclick="go('sync')">同步</button>
+    </nav>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/data2.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script>
+/* PAD 外框视口自适应：窗口小于设备尺寸时等比缩放居中 */
+(function () {
+  function fit() {
+    var d = document.querySelector('.device');
+    if (!d) return;
+    var s = Math.min(window.innerWidth / 1330, window.innerHeight / 840, 1);
+    d.style.transform = 'scale(' + s + ')';
+    document.body.style.overflow = s < 1 ? 'hidden' : 'auto';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function () { setTimeout(fit, 250); });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fit);
+  } else { fit(); }
+})();
+</script>
+<script src="pad.js"></script>
+</body>
+</html>
